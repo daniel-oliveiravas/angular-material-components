@@ -15,7 +15,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 
     $scope.model = model;
     $scope.mdTheme = mdTheme ? mdTheme : 'default';
-
+    var stringFormat = $scope.stringFormat;
     var activeLocale;
 
     this.build = function (locale) {
@@ -25,8 +25,8 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 
       if (angular.isDefined($scope.model)) {
         $scope.selected = {
-          model: moment($scope.model).format('LL'),
-          date: $scope.model
+          model: moment($scope.model, stringFormat).format(stringFormat),
+          date: moment($scope.model, stringFormat).toDate()
         };
 
         $scope.activeDate = moment($scope.model);
@@ -68,7 +68,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 
     $scope.select = function (day) {
       $scope.selected = {
-        model: day.format('LL'),
+        model: day.format(stringFormat),
         date: day.toDate()
       };
 
@@ -80,7 +80,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
     $scope.selectYear = function (year) {
       $scope.yearSelection = false;
 
-      $scope.selected.model = moment($scope.selected.date).year(year).format('LL');
+      $scope.selected.model = moment($scope.selected.date).year(year).format(stringFormat);
       $scope.selected.date = moment($scope.selected.date).year(year).toDate();
       $scope.model = moment($scope.selected.date).toDate();
       $scope.activeDate = $scope.activeDate.add(year - $scope.activeDate.year(), 'year');
@@ -142,7 +142,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 .controller('mdcDatePickerInputController', function ($scope, $attrs, $timeout, $mdDialog) {
     if (angular.isDefined($scope.model)) {
       $scope.selected = {
-        model: moment($scope.model).format('LL'),
+        model: moment($scope.model).format(stringFormat),
         date: $scope.model
       };
     }
@@ -175,7 +175,8 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
       controller: 'mdcDatePickerInputController',
       scope: {
         model: '=',
-        label: '@'
+        label: '@',
+        stringFormat: '='
       },
       templateUrl: 'date-picker/date-picker-input.html'
     };
