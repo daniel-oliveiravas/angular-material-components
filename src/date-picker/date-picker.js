@@ -5,7 +5,7 @@
 
 
 angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
-.controller('mdcDatePickerController', function ($scope, $timeout, $mdDialog, $document, model, locale, mdTheme) {
+  .controller('mdcDatePickerController', function ($scope, $timeout, $mdDialog, $document, model, locale, mdTheme, dateFormat) {
     function checkLocale(locale) {
       if (!locale) {
         return (navigator.language !== null ? navigator.language : navigator.browserLanguage).split('_')[0].split('-')[0] || 'en';
@@ -15,7 +15,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 
     $scope.model = model;
     $scope.mdTheme = mdTheme ? mdTheme : 'default';
-    var stringFormat = $scope.stringFormat;
+
     var activeLocale;
 
     this.build = function (locale) {
@@ -25,8 +25,8 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 
       if (angular.isDefined($scope.model)) {
         $scope.selected = {
-          model: moment($scope.model, stringFormat).format(stringFormat),
-          date: moment($scope.model, stringFormat).toDate()
+          model: moment($scope.model, dateFormat).format(dateFormat),
+          date: moment($scope.model, dateFormat).toDate()
         };
 
         $scope.activeDate = moment($scope.model);
@@ -68,7 +68,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 
     $scope.select = function (day) {
       $scope.selected = {
-        model: day.format(stringFormat),
+        model: day.format(dateFormat),
         date: day.toDate()
       };
 
@@ -80,7 +80,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
     $scope.selectYear = function (year) {
       $scope.yearSelection = false;
 
-      $scope.selected.model = moment($scope.selected.date).year(year).format(stringFormat);
+      $scope.selected.model = moment($scope.selected.date).year(year).format(dateFormat);
       $scope.selected.date = moment($scope.selected.date).year(year).toDate();
       $scope.model = moment($scope.selected.date).toDate();
       $scope.activeDate = $scope.activeDate.add(year - $scope.activeDate.year(), 'year');
@@ -142,7 +142,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 .controller('mdcDatePickerInputController', function ($scope, $attrs, $timeout, $mdDialog) {
     if (angular.isDefined($scope.model)) {
       $scope.selected = {
-        model: moment($scope.model).format(stringFormat),
+        model: moment($scope.model).format($scope.dateFormat),
         date: $scope.model
       };
     }
@@ -160,7 +160,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
         targetEvent: ev,
         templateUrl: 'date-picker/date-picker-dialog.html',
         controller: 'mdcDatePickerController',
-        locals: {model: $scope.model, locale: $attrs.locale, mdTheme: $attrs.dialogMdTheme}
+        locals: {model: $scope.model, locale: $attrs.locale, mdTheme: $attrs.dialogMdTheme, dateFormat: $scope.dateFormat}
       }).then(function (selected) {
         if (selected) {
           $scope.selected = selected;
@@ -176,7 +176,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
       scope: {
         model: '=',
         label: '@',
-        stringFormat: '='
+        dateFormat: '@'
       },
       templateUrl: 'date-picker/date-picker-input.html'
     };
