@@ -29,7 +29,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
           date: moment($scope.model, dateFormat).toDate()
         };
 
-        $scope.activeDate = moment($scope.model);
+        $scope.activeDate = moment($scope.model, dateFormat);
       }
       else {
         $scope.selected = {
@@ -142,7 +142,7 @@ angular.module('ngMaterial.components.datePicker', ['ngMaterial'])
 .controller('mdcDatePickerInputController', function ($scope, $attrs, $timeout, $mdDialog) {
     if (angular.isDefined($scope.model)) {
       $scope.selected = {
-        model: moment($scope.model).format($scope.dateFormat),
+        model: moment($scope.model, $scope.dateFormat).format($scope.dateFormat),
         date: $scope.model
       };
     }
