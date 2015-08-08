@@ -34,5 +34,5 @@ Live demo is [available on rawgit](https://rawgit.com/Toilal/angular-material-co
 A date picker inspired by [Lumx](http://ui.lumapps.com/).
 
 ```html
-<mdc-date-picker model="date" label="Pick a date" dialog-md-theme="pickerTheme" stringFormat="L"/>
+<mdc-date-picker model="date" label="Pick a date" dialog-md-theme="pickerTheme" dateFormat="L"/>
 ```
